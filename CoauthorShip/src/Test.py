@@ -3,6 +3,9 @@ Created on Mar 25, 2013
 
 @author: Tengyu
 '''
+import networkx as nx
+import numpy as np
+import matplotlib.pyplot as plt
 import Graph
 
 if __name__ == '__main__':
@@ -12,8 +15,19 @@ def degreeAnalysis(G):
     '''
     Analyze the degree distribution
     '''
-    pass
-
+    tempY=nx.degree_histogram(G)
+    tempX=list(range(0,len(tempY)+1)) # isolated node's degree = 0
+    X=[];Y=[]
+    for i in range(1,len(tempY)):# here I discard all isolated nodes.
+        if tempY[i]!=0:
+            Y.append(np.log(tempY[i]))
+            X.append(np.log(tempX[i]))
+    plt.plot(X,Y,'o')
+    plt.xlabel('log(k)')
+    plt.ylabel('logN(k)')
+    plt.title('Node degree analysis')
+    plt.show()       
+            
 def componentAnalysis(G):
     '''
     Analyze the connected component, question 1)
@@ -34,5 +48,4 @@ def nodeDiatanceAnalysis(G):
 
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
-
 
