@@ -29,6 +29,8 @@ class Graph:
             line=line[:line.find(',')]
             if(line==''): #in case there is no author for a paper
                 continue
+            if line.find(' (') > 0:
+                line=line[:line.find(' (')] # remove (Eds.) and (Ed.)
             authors=line.split(' & ')
             count=len(authors)
             if(count==1):
