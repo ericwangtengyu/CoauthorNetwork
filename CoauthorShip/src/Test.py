@@ -4,6 +4,7 @@ Created on Mar 25, 2013
 @author: Tengyu
 '''
 import networkx as nx
+import matplotlib.pyplot as plt
 import Graph
 
 if __name__ == '__main__':
@@ -20,12 +21,20 @@ def componentAnalysis(G):
     Analyze the connected component, question 1)
     '''
     print('--------Connected component analysis--------')
-    H=nx.connected_component_subgraphs(G)[0]
-    n1=H.number_of_nodes()
+    H=nx.connected_component_subgraphs(G)
+    n1=H[0].number_of_nodes()
     n=G.number_of_nodes()
+    ratio=float(n1)/n
     print('Number of Nodes in the largest component: ',n1)
     print('Number of Nodes in total: ',n)
-    print('The ratio is: ',float(n1)/n)
+    print('The ratio is: ',ratio)
+    print('The coauthorNetwork has a giant component')
+    labels = 'Others','Largest Component'
+    fracs = [1-ratio,ratio]
+    explode=(0.08, 0)
+    plt.title('Connected Component Analysis')
+    plt.pie(fracs, explode=explode, labels=labels,autopct='%1.1f%%', shadow=True, startangle=90)
+    plt.show()
     
 def nodeDistance(G, root, k):
     '''
@@ -41,6 +50,5 @@ def nodeDiatanceAnalysis(G):
 
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
-componentAnalysis(G.graph)
 
 
