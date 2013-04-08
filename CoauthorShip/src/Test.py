@@ -4,10 +4,7 @@ Created on Mar 25, 2013
 @author: Tengyu
 '''
 import networkx as nx
-<<<<<<< HEAD
 import numpy as np
-=======
->>>>>>> refs/heads/ComponentAnalysis
 import matplotlib.pyplot as plt
 import Graph
 
