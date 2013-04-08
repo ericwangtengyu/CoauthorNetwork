@@ -15,14 +15,21 @@ def degreeAnalysis(G):
     '''
     Analyze the degree distribution
     '''
+    print('--------Node Degree Analysis:--------')
     tempY=nx.degree_histogram(G)
-    tempX=list(range(0,len(tempY)+1)) # isolated node's degree = 0
+    tempX=list(range(len(tempY))) # isolated node's degree = 0
     X=[];Y=[]
+    print('Number of Isolated Node: ',tempY[0])
     for i in range(1,len(tempY)):# here I discard all isolated nodes.
         if tempY[i]!=0:
             Y.append(np.log(tempY[i]))
             X.append(np.log(tempX[i]))
-    plt.plot(X,Y,'o')
+    A=np.array([X,np.ones(len(X))])
+    k=np.linalg.lstsq(A.T,Y)[0]
+    X=np.array(X)
+    regressionLine=k[0]*X+k[1]
+    print('Slope of regression line: ',k[0])
+    plt.plot(X,Y,'o',X,regressionLine)
     plt.xlabel('log(k)')
     plt.ylabel('logN(k)')
     plt.title('Node degree analysis')
