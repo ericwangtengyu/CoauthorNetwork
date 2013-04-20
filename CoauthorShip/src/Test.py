@@ -29,7 +29,10 @@ def degreeAnalysis(G):
     X=np.array(X)
     regressionLine=k[0]*X+k[1]
     print('Slope of regression line: ',k[0])
-    plt.plot(X,Y,'o',X,regressionLine)
+    #plt.plot(X,Y,'o',X,regressionLine,label='$Y = %dx$'% k[0])
+    plt.plot(X,Y,'o')
+    plt.plot(X,regressionLine,'r',label='$Y = %fx+%f$'% (k[0], k[1]))
+    plt.legend()
     plt.xlabel('log(k)')
     plt.ylabel('logN(k)')
     plt.title('Node degree analysis')
@@ -69,4 +72,6 @@ def nodeDiatanceAnalysis(G):
 
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
+degreeAnalysis(G.graph)
+componentAnalysis(G.graph)
 
