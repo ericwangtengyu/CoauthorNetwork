@@ -74,4 +74,4 @@ G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
 degreeAnalysis(G.graph)
 componentAnalysis(G.graph)
-
+'''test line writen by CharlieGao'''
