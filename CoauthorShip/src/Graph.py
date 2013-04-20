@@ -43,6 +43,7 @@ class Graph:
     def getNumNodes(self):
         '''
         Get the number of nodes in the graph
+        Charlie wrote test line here
         '''
         return self.graph.number_of_nodes()
     
