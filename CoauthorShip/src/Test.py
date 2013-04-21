@@ -7,6 +7,7 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 import Graph
+from random import randint
 
 if __name__ == '__main__':
     pass
@@ -58,20 +59,31 @@ def componentAnalysis(G):
     plt.pie(fracs, explode=explode, labels=labels,autopct='%1.1f%%', shadow=True, startangle=90)
     plt.show()
     
-def nodeDistance(G, root, k):
+def nodeDistance(G, rootNode,targetNode):
     '''
-    Get the number of nodes at distance exactly k from the root, qusetion 2)
-    '''
-    pass
-
+    This function is for question 3)-Charlie
+    Get the distance k between root and target node
+    '''        
+    k=nx.shortest_path_length(G, rootNode,targetNode)   
+        
+    return k
 def nodeDiatanceAnalysis(G):
     '''
     Analyze the node distance and solve question 3) and 4)
     '''
-    pass
+    H=nx.connected_component_subgraphs(G)
+    rootNode=randint(0,H[0].number_of_nodes())# select a root from giant component
 
+    r=[0 for k in range(H[0].number_of_nodes())]#list for r(k) 
+    
+    for targetNode in range(H[0].number_of_nodes()):
+        distance=nodeDistance(G, H[0].nodes()[rootNode],H[0].nodes()[targetNode])          
+        r[distance]=r[distance]+1   # compute r(k) where k is the distance between root with current node
+    print(G.number_of_nodes())
+    print(r)
+    
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
-degreeAnalysis(G.graph)
-componentAnalysis(G.graph)
-'''test line writen by CharlieGao'''
+#degreeAnalysis(G.graph)
+#componentAnalysis(G.graph)
+nodeDiatanceAnalysis(G.graph)
