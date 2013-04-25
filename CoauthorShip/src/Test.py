@@ -89,11 +89,15 @@ def nodeDistanceAnalysis(G):
             print(MaxK)
             break
         
-    rk=[0 for k in range(MaxK)]#re store r values in rk[]    
+    rk=[0 for k in range(MaxK)]#re store r values in rk[]
+    sum=0    # for computing average distance
     for k in range(MaxK):
         rk[k]=r[k]
-    print(rk)
+        sum=sum+r[k]*k
     
+    averageRk=sum/H[0].number_of_nodes()
+    print(averageRk)
+    print(rk)
     k=range(MaxK)    
     plt.bar(k,rk)    #plot bar chart 
     plt.show()
