@@ -2,6 +2,7 @@
 Created on Mar 25, 2013
 
 @author: Tengyu
+@author: Chutian Charlie
 '''
 import networkx as nx
 import numpy as np
@@ -64,9 +65,9 @@ def nodeDistance(G, rootNode,targetNode):
     This function is for question 3)-Charlie
     Get the distance k between root and target node
     '''        
-    k=nx.shortest_path_length(G, rootNode,targetNode)   
-        
+    k=nx.shortest_path_length(G, rootNode,targetNode)           
     return k
+
 def nodeDiatanceAnalysis(G):
     '''
     Analyze the node distance and solve question 3) and 4)
@@ -79,8 +80,23 @@ def nodeDiatanceAnalysis(G):
     for targetNode in range(H[0].number_of_nodes()):
         distance=nodeDistance(G, H[0].nodes()[rootNode],H[0].nodes()[targetNode])          
         r[distance]=r[distance]+1   # compute r(k) where k is the distance between root with current node
-    print(G.number_of_nodes())
-    print(r)
+
+    
+    for findMax in range(H[0].number_of_nodes()):# output Kmax
+        
+        if r[findMax]==0:
+            MaxK=findMax
+            print(MaxK)
+            break
+        
+    rk=[0 for k in range(MaxK)]#re store r values in rk[]    
+    for k in range(MaxK):
+        rk[k]=r[k]
+    print(rk)
+    
+    k=range(MaxK)    
+    plt.bar(k,rk)    #plot bar chart 
+    plt.show()
     
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
