@@ -68,7 +68,7 @@ def nodeDistance(G, rootNode,targetNode):
     k=nx.shortest_path_length(G, rootNode,targetNode)           
     return k
 
-def nodeDiatanceAnalysis(G):
+def nodeDistanceAnalysis(G):
     '''
     Analyze the node distance and solve question 3) and 4)
     '''
@@ -102,4 +102,4 @@ G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
 #degreeAnalysis(G.graph)
 #componentAnalysis(G.graph)
-nodeDiatanceAnalysis(G.graph)
+nodeDistanceAnalysis(G.graph)
