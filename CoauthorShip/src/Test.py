@@ -96,14 +96,30 @@ def nodeDistanceAnalysis(G):
         sum=sum+r[k]*k
     
     averageRk=sum/H[0].number_of_nodes()
+    
+    '''comment below if run question 4'''
     print(averageRk)
     print(rk)
     k=range(MaxK)    
     plt.bar(k,rk)    #plot bar chart 
     plt.show()
+    '''till here'''
+    return [averageRk, rootNode] #transite paras to findLonelyAuthor
+
+def findLonelyAuthor(G):
+    H=nx.connected_component_subgraphs(G)
+    distance=H[0].number_of_nodes()*10  # large number initially
+    for repeat in range(1): #increase repeat times or do not use random root selecting
+        R=nodeDistanceAnalysis(G)
+        if R[0]<distance:        
+            distance=R[0]
+            root=R[1]
+    lonelyAuthor=H[0].nodes()[root]#find out the author
+    print(lonelyAuthor)
     
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
 #degreeAnalysis(G.graph)
 #componentAnalysis(G.graph)
-nodeDistanceAnalysis(G.graph)
+#nodeDistanceAnalysis(G.graph)
+findLonelyAuthor(G.graph)
