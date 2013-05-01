@@ -99,7 +99,7 @@ def findSmallestDistanceAuthor(G):
     
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
-#degreeAnalysis(G.graph)
-#componentAnalysis(G.graph)
-#nodeDistanceAnalysis(G.graph)
+degreeAnalysis(G.graph)
+componentAnalysis(G.graph)
+nodeDistanceAnalysis(G.graph)
 findSmallestDistanceAuthor(G.graph)
