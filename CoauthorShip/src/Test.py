@@ -79,8 +79,27 @@ def nodeDistanceAnalysis(G):
     plt.bar(center, hist, align = 'center', width = width)
     plt.show()
 
+def findSmallestDistanceAuthor(G):
+    '''
+    Locate the author who has the smallest average distance from every other author.
+    Solve question 4)
+    '''
+    H=nx.connected_component_subgraphs(G)
+    N=H[0].number_of_nodes()
+    minLength=N
+    author=''
+    for i in range(N):
+        lengthDict=nx.single_source_shortest_path_length(H[0],H[0].nodes()[i])
+        averageLength=sum(lengthDict.values())/len(lengthDict.values())-1
+        if(averageLength < minLength):
+            minLength=averageLength
+            author=H[0].nodes()[i]
+    print('The author who has the smallest average distance from every other author is ', author)
+    print('The distance is ', minLength)
+    
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
-degreeAnalysis(G.graph)
-componentAnalysis(G.graph)
-nodeDistanceAnalysis(G.graph)
+#degreeAnalysis(G.graph)
+#componentAnalysis(G.graph)
+#nodeDistanceAnalysis(G.graph)
+findSmallestDistanceAuthor(G.graph)
