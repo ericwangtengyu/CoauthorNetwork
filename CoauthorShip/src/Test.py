@@ -57,12 +57,6 @@ def componentAnalysis(G):
     plt.title('Connected Component Analysis')
     plt.pie(fracs, explode=explode, labels=labels,autopct='%1.1f%%', shadow=True, startangle=90)
     plt.show()
-    
-def nodeDistance(G, root, k):
-    '''
-    Get the number of nodes at distance exactly k from the root, qusetion 2)
-    '''
-    pass
 
 def nodeDiatanceAnalysis(G):
     '''
