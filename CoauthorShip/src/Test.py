@@ -96,7 +96,7 @@ def nodeDistanceAnalysis(G):
         sum=sum+r[k]*k
     
     averageRk=sum/H[0].number_of_nodes()
-    
+    return [averageRk, rootNode] #transite paras to findLonelyAuthor
     '''comment below if run question 4'''
     print(averageRk)
     print(rk)
@@ -104,12 +104,12 @@ def nodeDistanceAnalysis(G):
     plt.bar(k,rk)    #plot bar chart 
     plt.show()
     '''till here'''
-    return [averageRk, rootNode] #transite paras to findLonelyAuthor
+    
 
 def findLonelyAuthor(G):
     H=nx.connected_component_subgraphs(G)
     distance=H[0].number_of_nodes()*10  # large number initially
-    for repeat in range(1): #increase repeat times or do not use random root selecting
+    for repeat in range(10): #increase repeat times or do not use random root selecting
         R=nodeDistanceAnalysis(G)
         if R[0]<distance:        
             distance=R[0]
