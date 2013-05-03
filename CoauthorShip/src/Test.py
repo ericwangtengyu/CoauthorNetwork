@@ -68,7 +68,7 @@ def nodeDistanceAnalysis(G):
     lengthDict=nx.single_source_shortest_path_length(H[0],source)
     lengthList=list(lengthDict.values())
     kmax=max(lengthList)
-    averageLength=sum(lengthList)/len(lengthList)-1 # "-1" means we calculate the average distance from every other author.
+    averageLength=sum(lengthList)/(len(lengthList)-1) # "-1" means we calculate the average distance from every other author.
     print("Average path length of root node %s is %f"%(source,averageLength))
     hist, bins = np.histogram(lengthList,bins=kmax)
     width = (bins[1]-bins[0])
@@ -90,7 +90,7 @@ def findSmallestDistanceAuthor(G):
     author=''
     for i in range(N):
         lengthDict=nx.single_source_shortest_path_length(H[0],H[0].nodes()[i])
-        averageLength=sum(lengthDict.values())/len(lengthDict.values())-1
+        averageLength=sum(lengthDict.values())/(len(lengthDict.values())-1)
         if(averageLength < minLength):
             minLength=averageLength
             author=H[0].nodes()[i]
