@@ -58,14 +58,48 @@ def componentAnalysis(G):
     plt.pie(fracs, explode=explode, labels=labels,autopct='%1.1f%%', shadow=True, startangle=90)
     plt.show()
 
-def nodeDiatanceAnalysis(G):
+def nodeDistanceAnalysis(G):
     '''
-    Analyze the node distance and solve question 3) and 4)
+    Analyze the node distance and solve question 3)
     '''
-    pass
+    print('--------Node distance analysis--------')
+    H=nx.connected_component_subgraphs(G)
+    source=H[0].nodes()[0]
+    lengthDict=nx.single_source_shortest_path_length(H[0],source)
+    lengthList=list(lengthDict.values())
+    kmax=max(lengthList)
+    averageLength=sum(lengthList)/(len(lengthList)-1) # "-1" means we calculate the average distance from every other author.
+    print("Average path length of root node %s is %f"%(source,averageLength))
+    hist, bins = np.histogram(lengthList,bins=kmax)
+    width = (bins[1]-bins[0])
+    center = (bins[:-1]+bins[1:])/2
+    plt.xlabel('k')
+    plt.ylabel('r(k)')
+    plt.title('Node distance analysis')
+    plt.bar(center, hist, align = 'center', width = width)
+    plt.show()
 
+def findSmallestDistanceAuthor(G):
+    '''
+    Locate the author who has the smallest average distance from every other author.
+    Solve question 4)
+    '''
+    H=nx.connected_component_subgraphs(G)
+    N=H[0].number_of_nodes()
+    minLength=N
+    author=''
+    for i in range(N):
+        lengthDict=nx.single_source_shortest_path_length(H[0],H[0].nodes()[i])
+        averageLength=sum(lengthDict.values())/(len(lengthDict.values())-1)
+        if(averageLength < minLength):
+            minLength=averageLength
+            author=H[0].nodes()[i]
+    print('The author who has the smallest average distance from every other author is ', author)
+    print('The distance is ', minLength)
+    
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
 degreeAnalysis(G.graph)
 componentAnalysis(G.graph)
-
+nodeDistanceAnalysis(G.graph)
+findSmallestDistanceAuthor(G.graph)
