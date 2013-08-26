@@ -22,6 +22,7 @@ class Graph:
         '''
         line=''
         f = open(fileName,'r')
+        countRepeat=0
         while True:
             line=f.readline()[24:]
             if not line:
@@ -33,12 +34,14 @@ class Graph:
                 line=line[:line.find(' (')] # remove (Eds.) and (Ed.)
             authors=line.split(' & ')
             count=len(authors)
+            countRepeat=countRepeat+count
             if(count==1):
                 self.graph.add_node(authors[0]) 
             for i in range(0,count-1):
                 for j in range(i+1,count):
                     self.graph.add_edge(authors[i],authors[j])
-        return
+            #print(countRepeat)
+        return countRepeat
     
     def getNumNodes(self):
         '''

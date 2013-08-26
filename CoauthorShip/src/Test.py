@@ -2,13 +2,12 @@
 Created on Mar 25, 2013
 
 @author: Tengyu
-@author: Chutian Charlie
 '''
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 import Graph
-from random import randint
+import operator
 
 if __name__ == '__main__':
     pass
@@ -59,67 +58,75 @@ def componentAnalysis(G):
     plt.title('Connected Component Analysis')
     plt.pie(fracs, explode=explode, labels=labels,autopct='%1.1f%%', shadow=True, startangle=90)
     plt.show()
-    
-def nodeDistance(G, rootNode,targetNode):
-    '''
-    This function is for question 3)-Charlie
-    Get the distance k between root and target node
-    '''        
-    k=nx.shortest_path_length(G, rootNode,targetNode)           
-    return k
 
 def nodeDistanceAnalysis(G):
     '''
-    Analyze the node distance and solve question 3) and 4)
+    Analyze the node distance and solve question 3)
+    '''
+    print('--------Node distance analysis--------')
+    H=nx.connected_component_subgraphs(G)
+    source=H[0].nodes()[0]
+    lengthDict=nx.single_source_shortest_path_length(H[0],source)
+    lengthList=list(lengthDict.values())
+    kmax=max(lengthList)
+    averageLength=sum(lengthList)/(len(lengthList)-1) # "-1" means we calculate the average distance from every other author.
+    print("Average path length of root node %s is %f"%(source,averageLength))
+    hist, bins = np.histogram(lengthList,bins=kmax)
+    width = (bins[1]-bins[0])
+    center = (bins[:-1]+bins[1:])/2
+    plt.xlabel('k')
+    plt.ylabel('r(k)')
+    plt.title('Node distance analysis')
+    plt.bar(center, hist, align = 'center', width = width)
+    plt.show()
+
+def findSmallestDistanceAuthor(G):
+    '''
+    Locate the author who has the smallest average distance from every other author.
+    Solve question 4)
     '''
     H=nx.connected_component_subgraphs(G)
-    rootNode=randint(0,H[0].number_of_nodes())# select a root from giant component
-
-    r=[0 for k in range(H[0].number_of_nodes())]#list for r(k) 
+    N=H[0].number_of_nodes()
+    minLength=N
+    author=''
+    for i in range(N):
+        lengthDict=nx.single_source_shortest_path_length(H[0],H[0].nodes()[i])
+        averageLength=sum(lengthDict.values())/(len(lengthDict.values())-1)
+        if(averageLength < minLength):
+            minLength=averageLength
+            author=H[0].nodes()[i]
+    print('The author who has the smallest average distance from every other author is ', author)
+    print('The distance is ', minLength)
     
-    for targetNode in range(H[0].number_of_nodes()):
-        distance=nodeDistance(G, H[0].nodes()[rootNode],H[0].nodes()[targetNode])          
-        r[distance]=r[distance]+1   # compute r(k) where k is the distance between root with current node
-
+def betweeness(G):
+    '''
     
-    for findMax in range(H[0].number_of_nodes()):# output Kmax
-        
-        if r[findMax]==0:
-            MaxK=findMax
-            print(MaxK)
-            break
-        
-    rk=[0 for k in range(MaxK)]#re store r values in rk[]
-    sum=0    # for computing average distance
-    for k in range(MaxK):
-        rk[k]=r[k]
-        sum=sum+r[k]*k
-    
-    averageRk=sum/H[0].number_of_nodes()
-    return [averageRk, rootNode] #transite paras to findLonelyAuthor
-    '''comment below if run question 4'''
-    print(averageRk)
-    print(rk)
-    k=range(MaxK)    
-    plt.bar(k,rk)    #plot bar chart 
-    plt.show()
-    '''till here'''
-    
-
-def findLonelyAuthor(G):
+    '''
     H=nx.connected_component_subgraphs(G)
-    distance=H[0].number_of_nodes()*10  # large number initially
-    for repeat in range(10): #increase repeat times or do not use random root selecting
-        R=nodeDistanceAnalysis(G)
-        if R[0]<distance:        
-            distance=R[0]
-            root=R[1]
-    lonelyAuthor=H[0].nodes()[root]#find out the author
-    print(lonelyAuthor)
+    N=H[0].number_of_nodes()
+    minLength=N
+    author=''
+    
+    bb=nx.betweenness_centrality(H[0])
+    print(bb)
+    
+    big=max(bb, key=bb.get)
+    print(big)
+def orderBetween():
+    after=sorted(before.items(), key = (lambda k: k[1])) #sort by value
+    print(after)
+    
+def countAuthor(G):
+    numAuthor=G.number_of_nodes()
+    print(numAuthor)
     
 G=Graph.Graph()
 G.buildGraph('inputFile/papers.lst')
 #degreeAnalysis(G.graph)
 #componentAnalysis(G.graph)
 #nodeDistanceAnalysis(G.graph)
-findLonelyAuthor(G.graph)
+#findSmallestDistanceAuthor(G.graph)
+#betweeness(G.graph)
+#orderBetween()
+#countAuthor(G.graph)
+print(G.buildGraph('inputFile/papers.lst'))
